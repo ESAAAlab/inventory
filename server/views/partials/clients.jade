@@ -1,0 +1,30 @@
+extends ../layout
+
+block body
+    div(layout="column", flex=33, ng-controller="clientsController", height="100%")
+      md-content(flex)
+        md-subheader(class="md-sticky", md-theme="docs-dark")
+          form(ng-submit="$event.preventDefault()")
+            md-input-container(class="md-block")
+              label Nom, prénom ou code barre
+              input(ng-model="searchText")
+      md-content(flex="80")
+        md-list-item(class="md-3-line", ng-repeat="client in querySearch(searchText)", ng-click="null")
+          img(ng-src="{{client.picture}}", class="md-avatar", alt="{{client.last_name}} {{client.first_name}}")
+          div(class="md-list-item-text")
+            h3 {{client.last_name | uppercase}} {{client.first_name | uppercase}}
+            h4 {{client.class}}
+            p {{client.barcode}}
+          md-divider(md-inset,ng-if="!$last")
+
+    div(layout="row", flex)
+
+
+    script(src='//code.jquery.com/jquery-2.1.4.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js')
+    script(src='js/app.js')
