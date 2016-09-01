@@ -2,9 +2,14 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
 
-
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+});
+
+router.get('/users', function(req, res) {
+  models.User.findAll({}).then(function(user) {
+    res.json(user);
+  });
 });
 
 router.post('/users', function(req, res) {
@@ -22,22 +27,22 @@ router.get('/todos', function(req, res) {
   });
 });
 
+// add new todo
+router.post('/todos', function(req, res) {
+  models.Todo.create({
+    title: req.body.title,
+    UserId: req.body.user_id
+  }).then(function(todo) {
+    res.json(todo);
+  });
+});
+
 // get single todo
 router.get('/todo/:id', function(req, res) {
   models.Todo.find({
     where: {
       id: req.params.id
     }
-  }).then(function(todo) {
-    res.json(todo);
-  });
-});
-
-// add new todo
-router.post('/todos', function(req, res) {
-  models.Todo.create({
-    title: req.body.title,
-    UserId: req.body.user_id
   }).then(function(todo) {
     res.json(todo);
   });
