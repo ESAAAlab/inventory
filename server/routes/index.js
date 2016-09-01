@@ -3,27 +3,43 @@ var router = express.Router();
 var models = require('../models/index');
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
-router.get('/users', function(req, res) {
+// get all todos
+router.get('/todos', function(req, res) {
+  res.render('partials/todos');
+});
+
+// get all todos
+router.get('/api/v1/todos', function(req, res) {
+  models.Todo.findAll({}).then(function(todos) {
+    res.json(todos);
+  });
+});
+
+router.get('/api/v1/users', function(req, res) {
   models.User.findAll({}).then(function(user) {
     res.json(user);
   });
 });
 
-router.post('/users', function(req, res) {
+// get single todo
+router.get('/api/v1/todo/:id', function(req, res) {
+  models.Todo.find({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(todo) {
+    res.json(todo);
+  });
+});
+
+/*router.post('/users', function(req, res) {
   models.User.create({
     email: req.body.email
   }).then(function(user) {
     res.json(user);
-  });
-});
-
-// get all todos
-router.get('/todos', function(req, res) {
-  models.Todo.findAll({}).then(function(todos) {
-    res.json(todos);
   });
 });
 
@@ -32,17 +48,6 @@ router.post('/todos', function(req, res) {
   models.Todo.create({
     title: req.body.title,
     UserId: req.body.user_id
-  }).then(function(todo) {
-    res.json(todo);
-  });
-});
-
-// get single todo
-router.get('/todo/:id', function(req, res) {
-  models.Todo.find({
-    where: {
-      id: req.params.id
-    }
   }).then(function(todo) {
     res.json(todo);
   });
@@ -75,6 +80,6 @@ router.delete('/todo/:id', function(req, res) {
   }).then(function(todo) {
     res.json(todo);
   });
-});
+});*/
 
 module.exports = router;
