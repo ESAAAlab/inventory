@@ -15,7 +15,10 @@ router.get('/users', function(req, res) {
 
 // API ROUTES
 router.get('/api/v1/users', function(req, res) {
-  models.user.findAll({}).then(function(sqlResult) {
+  models.user.findAll({
+      include: [models.studentYear],
+      order: [['lastName', 'ASC']]
+    }).then(function(sqlResult) {
     res.json(sqlResult);
   });
 });

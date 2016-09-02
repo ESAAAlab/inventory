@@ -1,66 +1,21 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var InventoryItem = sequelize.define('item', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    model: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    brand: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    serialNumber: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    materialCode: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    barcode: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    inventoryNumber: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    acquisitionPrice: {
-      type: DataTypes.DOUBLE,
-      allowNull: true
-    },
-    acquisitionDate: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    isConsummable: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    stockMax: {
-      type: DataTypes.DOUBLE,
-      allowNull: true
-    },
-    stockAvailable: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    stockStep: {
-      type: DataTypes.DOUBLE,
-      allowNull: true
-    },
-    stockUnit: {
-      type: DataTypes.STRING,
-      allowNull: true
-    }
+    name: DataTypes.STRING,
+    model: DataTypes.STRING,
+    brand: DataTypes.STRING,
+    serialNumber: DataTypes.STRING,
+    materialCode: DataTypes.STRING,
+    barcode: DataTypes.STRING,
+    inventoryNumber: DataTypes.STRING,
+    acquisitionPrice: DataTypes.DOUBLE,
+    acquisitionDate: DataTypes.DATE,
+    description: DataTypes.STRING,
+    isConsummable: DataTypes.BOOLEAN,
+    stockMax: DataTypes.DOUBLE,
+    stockAvailable: DataTypes.BOOLEAN,
+    stockStep: DataTypes.DOUBLE,
+    stockUnit: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

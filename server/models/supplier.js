@@ -1,42 +1,15 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Supplier = sequelize.define('supplier', {
-    companyName: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    isManufacturer: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    phone1: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    phone2: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    addressStreetNum: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    addressField1: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    addressField2: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    addressField3: {
-      type: DataTypes.STRING,
-      allowNull: true
-    }
+    companyName: DataTypes.STRING,
+    isManufacturer: DataTypes.BOOLEAN,
+    email: DataTypes.STRING,
+    phone1: DataTypes.STRING,
+    phone2: DataTypes.STRING,
+    addressStreetNum: DataTypes.STRING,
+    addressField1: DataTypes.STRING,
+    addressField2: DataTypes.STRING,
+    addressField3: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

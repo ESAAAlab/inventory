@@ -1,10 +1,14 @@
 /// https://github.com/btford/angular-express-blog
-
 $(document).on('ready', function() {
   console.log('sanity check!');
 });
 
 var inventory = angular.module('inventory', ['ngMaterial']);
+
+function cleanString(s) {
+  return removeAccents(angular.lowercase(s));
+}
+
 
 inventory.controller('clientsController', function ($scope,$http) {
   $scope.querySearch = function(query) {
@@ -13,9 +17,11 @@ inventory.controller('clientsController', function ($scope,$http) {
   };
 
   $scope.createFilterFor = function(query) {
-    var lowercaseQuery = angular.lowercase(query);
+    var lowercaseQuery = cleanString(query);
     return function filterFn(data) {
-      var res = angular.lowercase(data.last_name).indexOf(lowercaseQuery) === 0;
+      var res = cleanString(data.lastName).indexOf(lowercaseQuery) >= 0 || 
+                cleanString(data.firstName).indexOf(lowercaseQuery) >= 0 || 
+                (data.barcode !== null && cleanString(data.barcode).indexOf(lowercaseQuery) >= 0);
       return res;
     };
   };
@@ -34,6 +40,6 @@ inventory.controller('clientsController', function ($scope,$http) {
 }).config(function($mdThemingProvider) {
   // Configure a dark theme with primary foreground yellow
   $mdThemingProvider.theme('docs-dark', 'default')
-    .primaryPalette('blue')
+    .primaryPalette('red')
     .dark();
 });
