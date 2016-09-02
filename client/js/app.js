@@ -24,7 +24,7 @@ inventory.controller('clientsController', function ($scope,$http) {
   $scope.clientData = [];
   $scope.filteredClient = [];
 
-  $http.get('/api/v1/clients')
+  $http.get('/api/v1/users')
   .success(function(data) {
     $scope.clientData = data;
   })

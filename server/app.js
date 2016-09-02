@@ -14,16 +14,13 @@ var routes = require('./routes/index.js');
 // *** express instance *** //
 var app = express();
 
-
 // *** view engine *** //
 var swig = new swig.Swig();
 app.engine('html', swig.renderFile);
 app.set('view engine', 'jade');
 
-
 // *** static directory *** //
 app.set('views', path.join(__dirname, 'views'));
-
 
 // *** config middleware *** //
 app.use(logger('dev'));
@@ -31,7 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client')));
-
 
 // *** main routes *** //
 app.use('/', routes);
@@ -66,6 +62,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
