@@ -1,0 +1,126 @@
+[
+  {
+    "model": "studentYear",
+    "data": {
+      "year":0,
+      "description":"Classe Préparatoire"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":1,
+      "description":"1ère Année"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":2,
+      "section":"Art",
+      "description":"2ème Art"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":2,
+      "section":"Design",
+      "description":"2ème Design"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":3,
+      "section":"Art",
+      "description":"3ème Art"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":3,
+      "section":"Design",
+      "description":"3ème Design"
+    }
+  },{
+    "model": "studentYear",
+    "data": {
+      "year":4,
+      "section":"Art",
+      "description":"4ème Art"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":4,
+      "section":"Design",
+      "description":"4ème Design"
+    }
+  },{
+    "model": "studentYear",
+    "data": {
+      "year":5,
+      "section":"Art",
+      "description":"5ème Art"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "year":5,
+      "section":"Design",
+      "description":"5ème Design"
+    }
+  },
+  {
+    "model": "studentYear",
+    "data": {
+      "description":"Indéfinie"
+    }
+  },  
+  {
+    "model": "userType",
+    "data": {
+      "description":"Étudiant"
+    }
+  },
+  {
+    "model": "userType",
+    "data": {
+      "description":"Intervenant"
+    }
+  },
+  {
+    "model": "userType",
+    "data": {
+      "description":"Professeur"
+    }
+  },
+  {
+    "model": "userType",
+    "data": {
+      "description":"Public Extérieur"
+    }
+  },
+  {
+    "model": "userType",
+    "data": {
+      "description":"Amateur"
+    }
+  },
+  {
+    "model": "userType",
+    "data": {
+      "description":"Technicien"
+    }
+  },
+  {
+    "model": "userType",
+    "data": {
+      "description":"Autre Employé"
+    }
+  }
+]

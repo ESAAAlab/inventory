@@ -9,7 +9,6 @@ function cleanString(s) {
   return removeAccents(angular.lowercase(s));
 }
 
-
 inventory.controller('clientsController', function ($scope,$http) {
   $scope.querySearch = function(query) {
     var results = query ? $scope.clientData.filter($scope.createFilterFor(query)) : $scope.clientData;
@@ -38,8 +37,13 @@ inventory.controller('clientsController', function ($scope,$http) {
       console.log('Error: ' + error);
   });
 }).config(function($mdThemingProvider) {
-  // Configure a dark theme with primary foreground yellow
+  $mdThemingProvider.theme('default', 'default')
+      .primaryPalette('yellow')
   $mdThemingProvider.theme('docs-dark', 'default')
-    .primaryPalette('red')
-    .dark();
+      .primaryPalette('yellow')
+      .dark();
+}).directive('onRepeatDirective', function () {
+  return function(scope, element, attrs) {
+    
+  };
 });

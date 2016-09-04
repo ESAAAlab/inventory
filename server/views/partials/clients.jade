@@ -1,21 +1,22 @@
 extends ../layout
 
 block body
-    div(layout="column", flex=33, ng-controller="clientsController", height="100%")
-      md-content(flex)
-        md-subheader(class="md-sticky", md-theme="docs-dark")
-          form(ng-submit="$event.preventDefault()")
-            md-input-container(class="md-block")
-              label Nom, prénom ou code barre
-              input(ng-model="searchText")
-      md-content(flex="80")
-        md-list-item(class="md-3-line", ng-repeat="client in querySearch(searchText)", ng-click="null")
-          img(ng-src="{{client.picture}}", class="md-avatar", alt="{{client.last_name}} {{client.first_name}}")
-          div(class="md-list-item-text")
-            h3 {{client.lastName | uppercase}} {{client.firstName | uppercase}}
-            h4 {{client.studentYear.description}}
-            p {{client.barcode}}
-          md-divider(md-inset,ng-if="!$last")
+    div(layout="column", layout-fill, flex=33, ng-controller="clientsController", height="100%")
+      md-content(flex="10", md-theme="docs-dark", ng-style="{'overflow':'hidden'}")
+        form(ng-submit="$event.preventDefault()", layout="row", layout-fill, layout-padding, layout-align="center center")
+          md-input-container(flex="90",ng-style="{'margin-top':'20px','margin-bottom':'0px'}")
+            label Nom, prénom ou code barre
+            input(ng-model="searchText")
+          md-button(class="md-fab md-mini md-primary")
+            md-icon(class="material-icons") search
+      md-content(layout="column",flex="90")
+        md-list
+          md-list-item(class="md-3-line", ng-repeat="client in querySearch(searchText)", ng-click="null", on-repeat-directive)
+            img(data-ng-src="{{client.pictures[0].content}}", class="md-avatar", alt="{{client.last_name}} {{client.first_name}}")
+            div(class="md-list-item-text")
+              h3 {{client.lastName | uppercase}} {{client.firstName | uppercase}}
+              h4 {{client.studentYear.description}}
+            md-divider(md-inset,ng-if="!$last")
     div(layout="row", flex)
 
     script(src='//code.jquery.com/jquery-2.1.4.min.js')

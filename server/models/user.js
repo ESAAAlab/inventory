@@ -2,6 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('user', {
     barcode: DataTypes.STRING,
+    title: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     isRegistered: DataTypes.BOOLEAN,
@@ -9,20 +10,24 @@ module.exports = function(sequelize, DataTypes) {
     cellPhone: DataTypes.STRING,
     homePhone: DataTypes.STRING,
     workPhone: DataTypes.STRING,
-    addressStreetNum: DataTypes.STRING,
-    addressField1: DataTypes.STRING,
-    addressField2: DataTypes.STRING,
-    addressField3: DataTypes.STRING
+    addressStreet: DataTypes.STRING,
+    addressCity: DataTypes.STRING,
+    addressState: DataTypes.STRING,
+    addressPostcode: DataTypes.STRING,
+    loginUsername: DataTypes.STRING,
+    loginPassword: DataTypes.STRING,    // FOR DEVELOPMENT ONLY, MUST BE REMOVED IN PRODUCTION
+    loginSalt: DataTypes.STRING,
+    loginMD5: DataTypes.STRING,
+    loginSHA1: DataTypes.STRING,
+    loginSHA256: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
-        User.belongsTo(models.civility);
         User.belongsTo(models.userType);
         User.belongsTo(models.studentYear);
-        User.belongsTo(models.town,{as:'addressTown'});
-        User.hasMany(models.document,{as:'Pictures'});
-        User.hasMany(models.document,{as:'Documents'});
-        User.hasMany(models.note,{as:'Notes'});
+        User.belongsToMany(models.document, {as: 'pictures', through: 'userPictures'});
+        User.belongsToMany(models.document, {as: 'documents', through: 'userDocuments'});
+        User.belongsToMany(models.note,{as: 'notes', through:'userNotes'});
       }
     }
   });

@@ -17,7 +17,6 @@ module.exports = function(sequelize, DataTypes) {
         Supplier.hasMany(models.document,{as:'Pictures'});
         Supplier.hasMany(models.document,{as:'Documents'});
         Supplier.hasMany(models.note,{as:'Notes'});
-        Supplier.belongsTo(models.town,{as:'addressTown'});
       }
     }
   });

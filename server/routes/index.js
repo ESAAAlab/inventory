@@ -12,13 +12,17 @@ router.get('/users', function(req, res) {
   res.render('partials/clients');
 });
 
-
 // API ROUTES
+
 router.get('/api/v1/users', function(req, res) {
   models.user.findAll({
-      include: [models.studentYear],
-      order: [['lastName', 'ASC']]
-    }).then(function(sqlResult) {
+    include: [
+      {model:models.userType, where: {description:'Étudiant'}},
+      {model:models.studentYear},
+      {model:models.document, as:'pictures', where: {type:'userProfilePic'}}
+    ],
+    order: [['lastName', 'ASC']]
+  }).then(function(sqlResult) {
     res.json(sqlResult);
   });
 });
