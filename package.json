@@ -19,6 +19,7 @@
     "json-query": "^2.1.1",
     "jsonpath-object-transform": "^1.0.4",
     "md5": "^2.2.1",
+    "mockaroo": "^0.1.7",
     "morgan": "~1.6.1",
     "node-base64-image": "^1.0.1",
     "node-json-transform": "^1.0.6",

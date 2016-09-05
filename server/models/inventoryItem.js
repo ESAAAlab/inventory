@@ -10,10 +10,10 @@ module.exports = function(sequelize, DataTypes) {
     inventoryNumber: DataTypes.STRING,
     acquisitionPrice: DataTypes.DOUBLE,
     acquisitionDate: DataTypes.DATE,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     isConsummable: DataTypes.BOOLEAN,
     stockMax: DataTypes.DOUBLE,
-    stockAvailable: DataTypes.BOOLEAN,
+    stockAvailable: DataTypes.DOUBLE,
     stockStep: DataTypes.DOUBLE,
     stockUnit: DataTypes.STRING
   }, {
@@ -23,12 +23,14 @@ module.exports = function(sequelize, DataTypes) {
         InventoryItem.belongsTo(models.supplier);
         InventoryItem.belongsTo(models.supplier,{as:'manufacturer'});
         InventoryItem.belongsTo(models.itemLocation);
-        InventoryItem.hasMany(models.note,{as:'Notes'});
-        InventoryItem.hasMany(models.document,{as:'Pictures'});
-        InventoryItem.hasMany(models.document,{as:'Documents'});
-        InventoryItem.hasMany(models.note,{as:'Maintenance'});
-        InventoryItem.hasMany(models.note,{as:'Commentary'});
-        InventoryItem.hasMany(models.transaction);
+
+        InventoryItem.belongsToMany(models.document, {as: 'pictures', through: 'itemPictures'});
+        InventoryItem.belongsToMany(models.document, {as: 'documents', through: 'itemDocuments'});
+        InventoryItem.belongsToMany(models.note,{as: 'notes', through:'itemNotes'});
+        InventoryItem.belongsToMany(models.note,{as: 'maintenance', through:'itemMaintenances'});
+        InventoryItem.belongsToMany(models.note,{as: 'commentary', through:'itemCommentaries'});
+        
+        InventoryItem.belongsToMany(models.transaction,{as: 'transaction', through:'itemTransactions'});
       }
     }
   });

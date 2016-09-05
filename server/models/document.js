@@ -8,6 +8,9 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Document.belongsToMany(models.user, {as:'users', through: 'userPictures'});
         Document.belongsToMany(models.user, {as:'users', through: 'userDocuments'});
+
+        Document.belongsToMany(models.item, {as: 'items', through: 'itemPictures'});
+        Document.belongsToMany(models.item, {as: 'items', through: 'itemDocuments'});
       }
     }
   });

@@ -6,7 +6,10 @@ var md5 = require('md5');
 var BufferList = require('bufferlist').BufferList;
 var jsonQuery = require('json-query')
 
+var Mockaroo = require('mockaroo');
+
 var nbUsers = 500;
+var nbInventory = 1000;
 
 throttledRequest.configure({
   requests: 5,
@@ -28,9 +31,127 @@ function initSQL() {
 
 function seedDB() {
   fixtures.loadFile("./init.json", models).then(function(){
-    createRandomUsers(nbUsers);
+    createRandomInventory(nbInventory);
   });
 };
+
+function createRandomInventory(nb) {
+  var client = new Mockaroo.Client({
+    apiKey: 'xxx' // see http://mockaroo.com/api/docs to get your api key
+  });
+
+  client.generate({
+      count: nb,
+      fields: [
+      {
+          name: 'brand',
+          type: 'Company Name'
+      }
+      , {
+          name: 'model',
+          type: 'App Name'
+      }
+      , {
+          name: 'name',
+          type: 'Formula',
+          value: 'brand+" "+model'
+      }
+      , {
+          name: 'serialNumber',
+          type: 'ISBN'
+      }
+      , {
+          name: 'barcode',
+          type: 'Formula',
+          value: 'digest(name+" "+serialNumber,"MD5")'
+      }
+      , {
+          name: 'materialCode',
+          type: 'Credit Card #'
+      }
+      , {
+          name: 'inventoryNumber',
+          type: 'Credit Card #'
+      }
+      , {
+          name: 'acquisitionPrice',
+          type: 'Number',
+          min: 0,
+          max: 5000,
+          decimals: 2
+      }
+      , {
+          name: 'acquisitionDate',
+          type: 'Date',
+          min: '1/1/2000',
+          max: '08/31/2016',
+          format: '%m/%d/%Y'
+      }, {
+          name: 'description',
+          type: 'Paragraphs',
+          max: 1
+      }, {
+          name: 'isConsummable',
+          type: 'Boolean'
+      }, {
+          name: 'stockMax',
+          type: 'Number',
+          min: 0,
+          max: 100,
+          decimals: 0
+      }, {
+          name: 'stockAvailable',
+          type: 'Formula',
+          value: 'random(0,stockMax)'
+      }, {
+          name: 'stockStep',
+          type: 'Formula',
+          value: 'random(1,stockMax)'
+      }, {
+          name: 'stockUnit',
+          type: 'Custom List',
+          values: ['pc', 'g', 'Kg', 'L']
+      },
+      {
+        name: 'itemCategoryId',
+        type: 'Number',
+        min: 8,
+        max: 40,
+        decimals: 0
+      },
+      {
+        name: 'itemLocationId',
+        type: 'Formula',
+        value: 'if itemCategoryId <= 20 then 1 else 2 end'
+      }]
+  }).then(function(records) {
+    for (i in records) {
+      var item = records[i];
+      models.item.create({
+        name: item.name,
+        model: item.model,
+        brand: item.brand,
+        serialNumber: item.serialNumber,
+        materialCode: item.materialCode,
+        barcode: item.barcode,
+        inventoryNumber: item.inventoryNumber,
+        acquisitionPrice: item.acquisitionPrice,
+        acquisitionDate: item.acquisitionDate,
+        description: item.description,
+        isConsummable: item.isConsummable,
+        stockMax: item.stockMax,
+        stockAvailable: item.stockAvailable,
+        stockStep: item.stockStep,
+        stockUnit: item.stockUnit,
+        itemCategoryId: item.itemCategoryId,
+        itemLocationId: item.itemLocationId
+      }).then(function(){});
+    }
+    
+    createRandomUsers(nbUsers);
+
+  });
+}
 
 function createRandomUsers(nb) {
   console.log("querying randomuser.me for "+nb+" users");
@@ -76,7 +197,7 @@ function createRandomUsers(nb) {
           throttledRequest({uri:uri, encoding:'binary'}, function (error, response, body) {
             currentIndex++;
             var index = currentIndex;
-            console.log("downloading picture for user "+index+"/"+nbUsers+" : "+sqluser.firstName+" "+sqluser.lastName);
+            console.log("downloading thumbnail for user "+index+"/"+nbUsers+" : "+sqluser.firstName+" "+sqluser.lastName);
             if (!error && response.statusCode == 200) {
               data_uri_prefix = "data:" + response.headers["content-type"] + ";base64,"
               image = new Buffer(body.toString(), "binary").toString("base64");
