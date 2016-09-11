@@ -8,7 +8,7 @@ var jsonQuery = require('json-query')
 
 var Mockaroo = require('mockaroo');
 
-var nbUsers = 500;
+var nbUsers = 200;
 var nbInventory = 1000;
 
 throttledRequest.configure({
@@ -125,6 +125,7 @@ function createRandomInventory(nb) {
         value: 'if itemCategoryId <= 20 then 1 else 2 end'
       }]
   }).then(function(records) {
+    console.log(records);
     for (i in records) {
       var item = records[i];
       models.item.create({
@@ -139,17 +140,25 @@ function createRandomInventory(nb) {
         acquisitionDate: item.acquisitionDate,
         description: item.description,
         isConsummable: item.isConsummable,
-        stockMax: item.stockMax,
-        stockAvailable: item.stockAvailable,
         stockStep: item.stockStep,
         stockUnit: item.stockUnit,
         itemCategoryId: item.itemCategoryId,
         itemLocationId: item.itemLocationId
-      }).then(function(){});
+      }).then(function(sqlitem){
+        var qres = jsonQuery('[barcode='+sqlitem.barcode+']', {
+          data: records
+        });
+        models.transaction.create({
+          type:'stockCount',
+          startDate: new Date(),
+          ended: true,
+          quantity:records[qres.key].stockMax
+        }).then(function(sqltransaction) {
+          sqlitem.addStockCount(sqltransaction);
+        })
+      });
     }
-    
     createRandomUsers(nbUsers);
-
   });
 }
 

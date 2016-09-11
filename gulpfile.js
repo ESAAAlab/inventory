@@ -1,8 +1,8 @@
 /**
  * Module Dependencies
  */
-
 var gulp = require('gulp');
+var pug = require('gulp-pug');
 var jshint = require('gulp-jshint');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
@@ -15,10 +15,13 @@ var nodemon = require('gulp-nodemon');
 
 var paths = {
   styles: [
-    './client/css/*.css',
+    './public/css/*.css',
   ],
   scripts: [
-    './client/js/*.js',
+    './public/js/*.js',
+  ],
+  views: [
+    './public/views/**/*.pug',
   ],
   server: [
     './server/bin/www'
@@ -27,7 +30,7 @@ var paths = {
 
 var nodemonConfig = {
   script: paths.server[0],
-  ext: 'html js css jade',
+  ext: 'html js css pug',
   ignore: ['.git','node_modules']
 };
 
@@ -40,6 +43,14 @@ gulp.task('lint', function() {
   return gulp.src(paths.scripts)
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('templates', function() {
+  return gulp.src(paths.views)
+    .pipe(pug({
+      pretty:true
+    }))
+    .pipe(gulp.dest('./public/static/'))
 });
 
 gulp.task('browser-sync', ['nodemon'], function(done) {
@@ -69,6 +80,7 @@ gulp.task('nodemon', function (cb) {
 
 gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['lint']);
+  gulp.watch(paths.views, ['templates']);
 });
 
-gulp.task('default', ['browser-sync', 'watch'], function(){});
+gulp.task('default', ['browser-sync', 'watch', 'templates'], function(){});

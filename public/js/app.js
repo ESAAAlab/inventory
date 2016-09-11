@@ -1,8 +1,6 @@
-$(document).on('ready', function() {
-  console.log('sanity check!');
-});
-
-var inventory = angular.module('inventory', ['ngMaterial']).config(function($mdThemingProvider) {
+var inventory = angular.module('inventory', ['ngMaterial','ui.router'])
+.config(['$urlRouterProvider','$stateProvider','$locationProvider','$mdThemingProvider',
+  function($urlRouterProvider, $stateProvider, $locationProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('search', 'default').primaryPalette('blue-grey').accentPalette('deep-orange').backgroundPalette('blue-grey');
   $mdThemingProvider.theme('search-dark', 'default').primaryPalette('blue-grey').accentPalette('deep-orange').dark();
   $mdThemingProvider.theme('menu', 'default').primaryPalette('blue-grey').accentPalette('blue-grey');
@@ -11,6 +9,46 @@ var inventory = angular.module('inventory', ['ngMaterial']).config(function($mdT
   $mdThemingProvider.theme('edit-dark', 'default').primaryPalette('blue-grey').accentPalette('deep-orange').dark();
   $mdThemingProvider.theme('success-toast');
   $mdThemingProvider.theme('error-toast');
+
+  $stateProvider
+  .state('home', {
+    url:'/home',
+    templateUrl: '/static/partials/index.html'
+  })
+  .state('lending', {
+    url:'/lending',
+    templateUrl: '/static/partials/lending.html'
+  })
+  .state( 'users', {
+    url:'/users',
+    templateUrl: '/static/partials/users.html'
+  })
+  .state( 'users.id', {
+    url:'/:id',
+    views:{
+      "userInfos": {
+        templateUrl: '/static/partials/users.id.html'
+      }
+    }
+  })
+  .state('inventory', {
+    url:'/inventory',
+    templateUrl: '/static/partials/inventory.html'
+  })
+  .state('inventory.id', {
+    url:'/:id',    
+    views:{
+      "inventoryInfos":{
+        templateUrl: '/static/partials/inventory.id.html'
+      }
+    }
+  });
+  $urlRouterProvider.otherwise('/home');
+  $locationProvider.html5Mode(true);
+}]);
+
+inventory.run(function($rootScope) {
+  $rootScope.$on("$stateChangeError", console.log.bind(console));
 });
 
 inventory.factory('toastService',function($mdToast){
@@ -59,7 +97,7 @@ inventory.factory('toastService',function($mdToast){
     getLocations: function(){
       return $http.get('/api/v1/itemLocations')
       .then(
-      function success(response) {        
+      function success(response) {
         return response.data;
       },function error(error) {
         console.log('Error: ' + error);
@@ -86,7 +124,7 @@ inventory.factory('toastService',function($mdToast){
     clearItem: function(id) {
       return $http.delete('/api/v1/inventory/'+id)
       .then(
-      function success(response) {        
+      function success(response) {
         return response.data;
       },function error(error) {
         console.log('Error: ' + error);
@@ -95,7 +133,7 @@ inventory.factory('toastService',function($mdToast){
     clearUser: function(id) {
       return $http.delete('/api/v1/user/'+id)
       .then(
-      function success(response) {        
+      function success(response) {
         return response.data;
       },function error(error) {
         console.log('Error: ' + error);

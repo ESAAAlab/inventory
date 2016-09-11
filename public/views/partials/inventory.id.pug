@@ -1,0 +1,79 @@
+div(layout="column", layout-fill, ng-controller="singleItemController", height="100%")
+  form(ng-submit="saveItem()", layout="column", flex)
+    input(type="submit",style="position: absolute; left: -9999px; width: 1px; height: 1px;")
+    md-content(flex="none", md-theme="edit-dark", ng-style="{'overflow':'hidden', 'padding-top':'27px','padding-bottom':'27px'}", layout="row", layout-fill, layout-padding, layout-align="start center")
+      md-button(class="md-fab md-mini md-primary",ng-click="clearItem()")
+        md-tooltip
+          | Créer un nouvel outil
+        md-icon(class="material-icons") add
+      md-button(class="md-fab md-mini md-primary",ng-click="saveItem()")
+        md-tooltip
+          | Sauvegarder
+        md-icon(class="material-icons") save
+      md-button(class="md-fab md-mini md-warn",ng-click="deleteItem(item.id)")
+        md-tooltip
+          | Supprimer
+        md-icon(class="material-icons") delete
+    md-content(flex="10", layout="row", layout-padding, md-theme="edit", id="formContent")
+      div(flex="20")
+        img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.name}}")
+      div(flex, layout="column")
+        md-input-container
+          label Nom
+          input(ng-model="item.name", required)
+        div(layout="row")
+          md-input-container(flex="50")
+            label Marque
+            input(ng-model="item.brand")
+          md-input-container(flex="50")
+            label Modèle
+            input(ng-model="item.model")
+        div(layout="row")
+          md-input-container(flex="50")
+            label Numéro de série
+            input(ng-model="item.serialNumber")
+          md-input-container(flex="50")
+            label Numéro d'inventaire
+            input(ng-model="item.inventoryNumber")
+        div(layout="row")
+          md-input-container(flex="50")
+            label Catégorie
+            md-select(ng-model="item.itemCategoryId")
+              md-option(ng-repeat="cat in itemCategories", value="{{cat.id}}", ng-click="console.log('m')")
+                | {{cat.description}}
+          md-input-container(flex="50")
+            label Emplacement
+            md-select(ng-model="item.itemLocationId")
+              md-option(ng-repeat="loc in itemLocations", value="{{loc.id}}")
+                | {{loc.description}}
+        div(layout="row")
+          md-input-container(flex="50")
+            label Prix d'achat
+            input(ng-model="item.acquisitionPrice",type="number", step="0.01")
+            md-icon(class="material-icons") euro_symbol
+          md-input-container(flex="50")
+            label Date d'achat
+            md-datepicker(ng-model="item.acquisitionDate")
+        md-input-container
+          label Description
+          textarea(ng-model="item.description",md-maxlength="150")
+        div(layout="row")
+          md-input-container(flex)
+            label Stock Maximum
+              //-span(ng-if="item.stockUnit != units[0].unit")
+                | (en {{item.stockUnit}})
+            input(ng-model="item.stockCounts[0].quantity", type="number", ng-step="item.stockStep")
+          md-input-container(flex)
+            label Actuellement en stock
+              //-span(ng-if="item.stockUnit != units[0].unit")
+                | (en {{item.stockUnit}})
+            input(ng-model="item.stockAvailable", type="number", ng-step="item.stockStep", ng-style="checkStockAvailable(item)")
+          //-md-input-container(flex)
+            label Unité
+            md-select(ng-model="item.stockUnit")
+              md-option(ng-repeat="cat in units", value="{{cat.unit}}")
+                | {{cat.unit}}
+          md-input-container(flex, layout-align="center center")
+            div
+              | Consommable &nbsp;
+              md-checkbox(ng-model="item.isConsummable",flex, aria-label="consommable")

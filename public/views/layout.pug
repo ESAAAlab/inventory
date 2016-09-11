@@ -5,33 +5,40 @@ html(ng-app="inventory")
     base(href='/')
     title Inventory
     link(rel='stylesheet', href='/css/main.css')
-    link(rel='stylesheet', href='http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css')
+    link(rel='stylesheet', href='/bower_components/angular-material/angular-material.min.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
-    script(src='//code.jquery.com/jquery-2.1.4.min.js')
+    script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js')
-    script(src='http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js')
-    script(src='js/utils.js')
+    script(src='/bower_components/angular/angular.min.js')
+    script(src='/bower_components/angular-animate/angular-animate.min.js')
+    script(src='/bower_components/angular-aria/angular-aria.min.js')
+    script(src='/bower_components/angular-messages/angular-messages.min.js')
+    script(src='/bower_components/angular-material/angular-material.min.js')
+    script(src='/bower_components/angular-ui-router/release/angular-ui-router.js')
     script(src='js/app.js')
+    script(src='js/utils.js')
   body(ng-cloak, layout="row",height="100%")
     div(layout="column",flex="5", layout-align="center center")
       md-content(layout="column", ng-style="{'padding-top':'27px'}", flex="90", layout-fill, md-theme="menu-dark", layout-align="start center")
         md-button(class="md-fab md-mini",ng-href="/")
           md-tooltip
+            | index
+          md-icon(class="material-icons") home
+        br
+        md-button(class="md-fab md-mini",href="#/lending")
+          md-tooltip
             | prêt et retours
           md-icon(class="material-icons") swap_horiz
         br
-        md-button(class="md-fab md-mini",ng-href="/users")
+        md-button(class="md-fab md-mini",href="#/users")
           md-tooltip
             | utilisateurs
           md-icon(class="material-icons") face
         br
-        md-button(class="md-fab md-mini",ng-href="/inventory")
+        md-button(class="md-fab md-mini",href="#/inventory")
           md-tooltip
             | inventaire
           md-icon(class="material-icons") build
+    div(ui-view,layout-fill)
     block body
 

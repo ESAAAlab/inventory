@@ -1,0 +1,23 @@
+{
+  "name": "inventory",
+  "homepage": "https://github.com/ESAAAlab/inventory",
+  "authors": [
+    "Kamel Makhloufi <melka@blaste.net>"
+  ],
+  "description": "inventory app for lending items to students",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~3.1.0",
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
+    "angular-material": "^1.1.1"
+  }
+}

@@ -14,7 +14,7 @@
     "debug": "~2.2.0",
     "diacritics": "^1.2.3",
     "express": "~4.13.1",
-    "jade": "^1.0.4",
+    "gulp-pug": "^3.0.4",
     "jsbarcode": "^3.3.23",
     "json-query": "^2.1.1",
     "jsonpath-object-transform": "^1.0.4",
@@ -23,8 +23,10 @@
     "morgan": "~1.6.1",
     "node-base64-image": "^1.0.1",
     "node-json-transform": "^1.0.6",
+    "passport": "^0.3.2",
     "pg": "^4.4.3",
     "pg-hstore": "^2.3.2",
+    "pug": "^2.0.0-beta6",
     "request": "^2.74.0",
     "sequelize": "^3.12.2",
     "sequelize-cli": "^2.1.0",
@@ -36,8 +38,10 @@
   "devDependencies": {
     "browser-sync": "2.9.6",
     "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
     "gulp-jshint": "^1.11.2",
     "gulp-nodemon": "^2.0.4",
+    "gulp-pug-beautify": "0.0.1",
     "jshint-stylish": "^2.0.1"
   }
 }

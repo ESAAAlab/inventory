@@ -1,0 +1,44 @@
+
+<div layout="row" flex="100" ng-controller="rootUsersController">
+  <div layout="column" layout-fill="layout-fill" flex="33" ng-controller="usersController" height="100%">
+    <md-content flex="none" md-theme="search-dark" ng-style="{'overflow':'hidden'}">
+      <form ng-submit="querySearch(searchText)" layout="row" layout-fill="layout-fill" layout-padding="layout-padding" layout-align="center center">
+        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px"/>
+        <md-input-container flex="90" ng-style="{'margin-top':'20px','margin-bottom':'0px'}">
+          <label>Nom ou code barre</label>
+          <input ng-model="searchText" ng-change="querySearch(searchText)" autofocus="autofocus"/>
+        </md-input-container>
+        <md-button class="md-fab md-mini md-primary" ng-click="querySearch(searchText,true)">
+          <md-tooltip>Rechercher</md-tooltip>
+          <md-icon class="material-icons">search</md-icon>
+        </md-button>
+      </form>
+    </md-content>
+    <md-content layout="column" flex="90" md-theme="search">
+      <md-progress-linear md-mode="indeterminate" ng-disabled="isFinishedLoadingSearchQuery"></md-progress-linear>
+      <md-list>
+        <md-list-item class="md-3-line" ng-repeat="user in users" ui-sref="users.id({id:user.id})" on-repeat-directive="on-repeat-directive"><img class="md-avatar" data-ng-src="{{user.pictures[0].content}}" alt="{{user.lastName}} {{user.firstName}}"/>
+          <div class="md-list-item-text">
+            <h3>{{user.lastName | uppercase}} {{user.firstName | uppercase}}</h3>
+            <h4>{{user.studentYear.description}}</h4>
+          </div>
+          <md-button class="md-icon-button" ng-click="loadUser(user.id)">
+            <md-tooltip>Editer</md-tooltip>
+            <md-icon class="material-icons">mode_edit</md-icon>
+          </md-button>
+          <md-button class="md-icon-button" ng-click="duplicateUser(user)">
+            <md-tooltip>Dupliquer</md-tooltip>
+            <md-icon class="material-icons">content_copy</md-icon>
+          </md-button>
+          <md-button class="md-icon-button md-mini md-warn" ng-click="deleteUser(user.id)">
+            <md-tooltip>Supprimer</md-tooltip>
+            <md-icon class="material-icons">delete</md-icon>
+          </md-button>
+          <md-divider md-inset="md-inset" ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </div>
+  <div ui-view="userInfos" flex="flex" layout-fill="layout-fill"></div>
+  <script src="js/users.js"></script>
+</div>

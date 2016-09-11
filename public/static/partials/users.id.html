@@ -1,0 +1,68 @@
+
+<div layout="column" layout-fill="layout-fill" ng-controller="singleUserController" height="100%">
+  <form ng-submit="saveUser()" layout="column" flex="flex">
+    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px"/>
+    <md-content flex="none" md-theme="edit-dark" ng-style="{'overflow':'hidden', 'padding-top':'27px','padding-bottom':'27px'}" layout="row" layout-fill="layout-fill" layout-padding="layout-padding" layout-align="start center">
+      <md-button class="md-fab md-mini md-primary" ng-click="clearUser()">
+        <md-tooltip>Créer un nouvel utilisateur</md-tooltip>
+        <md-icon class="material-icons">add</md-icon>
+      </md-button>
+      <md-button class="md-fab md-mini md-primary" ng-click="saveUser()">
+        <md-tooltip>Sauvegarder</md-tooltip>
+        <md-icon class="material-icons">save</md-icon>
+      </md-button>
+      <md-button class="md-fab md-mini md-warn" ng-click="deleteUser(user.id)">
+        <md-tooltip>Supprimer</md-tooltip>
+        <md-icon class="material-icons">delete</md-icon>
+      </md-button>
+    </md-content>
+    <md-content flex="10" layout="row" layout-padding="layout-padding" md-theme="edit" id="formContent">
+      <div flex="20"><img class="userPicture" data-ng-src="{{user.pictures[0].content}}" alt="{{user.lastName}}"/></div>
+      <div flex="flex" layout="column">
+        <div layout="row">
+          <md-input-container flex="50">
+            <label>Nom</label>
+            <input ng-model="user.lastName"/>
+          </md-input-container>
+          <md-input-container flex="50">
+            <label>Prénom</label>
+            <input ng-model="user.firstName"/>
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container flex="33">
+            <label>Email</label>
+            <input ng-model="user.email"/>
+          </md-input-container>
+          <md-input-container flex="33">
+            <label>Tél Portable</label>
+            <input ng-model="user.cellPhone"/>
+          </md-input-container>
+          <md-input-container flex="33">
+            <label>Tél Maison</label>
+            <input ng-model="user.homePhone"/>
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container flex="flex">
+            <label>Type d'utilisateur</label>
+            <md-select ng-model="user.userTypeId">
+              <md-option ng-repeat="type in userTypes" value="{{type.id}}">{{type.description}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container flex="flex">
+            <label>Section</label>
+            <md-select ng-model="user.studentYearId">
+              <md-option ng-repeat="year in studentYears" value="{{year.id}}">{{year.description}}</md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container flex="flex" layout-align="center center">
+            <div flex="flex">&nbsp;&nbsp;&nbsp; Inscrit &nbsp;&nbsp;&nbsp;
+              <md-checkbox ng-model="user.isRegistered" flex="flex" aria-label="inscrit"></md-checkbox>
+            </div>
+          </md-input-container>
+        </div>
+      </div>
+    </md-content>
+  </form>
+</div>

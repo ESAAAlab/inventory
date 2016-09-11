@@ -25,3 +25,8 @@ md-toast.md-success-toast-theme .md-toast-content {
 md-toast.md-error-toast-theme .md-toast-content {
   background-color: red;
 }
+
+.userPicture {
+    width: 100%;
+    border-radius: 50%;
+}

@@ -1,0 +1,36 @@
+div(layout="row",flex=100,ng-controller="rootItemController")
+  div(layout="column", layout-fill, flex=33, ng-controller="itemsController", height="100%")
+    md-content(flex="none", md-theme="search-dark", ng-style="{'overflow':'hidden'}")
+      form(ng-submit="querySearch(searchText)", layout="row", layout-fill, layout-padding, layout-align="center center")
+        input(type="submit", style="position: absolute; left: -9999px; width: 1px; height: 1px;")
+        md-input-container(flex="90", ng-style="{'margin-top':'20px','margin-bottom':'0px'}")
+          label Nom ou code barre
+          input(ng-model="searchText", ng-change="querySearch(searchText)", autofocus)
+        md-button(class="md-fab md-mini md-primary", ng-click="querySearch(searchText,true)")
+          md-tooltip
+              | Rechercher
+          md-icon(class="material-icons") search
+    md-content(layout="column",flex="90", md-theme="search")
+      md-progress-linear(md-mode="indeterminate",ng-disabled="isFinishedLoadingSearchQuery")
+      md-list
+        md-list-item(class="md-3-line", ng-repeat="item in items", ui-sref="inventory.id({id:item.id})", on-repeat-directive)
+          img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.last_name}} {{item.first_name}}")
+          div(class="md-list-item-text")
+            h3 {{item.name | uppercase}}
+            h4 {{item.brand}} {{item.model}}
+            p(ng-style="checkStockAvailable(item)") {{item.stockAvailable}} / {{item.stockMax}}
+          md-button(class="md-icon-button",ng-click="loadItem(item.id)")
+            md-tooltip
+              | Editer
+            md-icon(class="material-icons") mode_edit
+          md-button(class="md-icon-button",ng-click="duplicateItem(item)")
+            md-tooltip
+              | Dupliquer
+            md-icon(class="material-icons") content_copy
+          md-button(class="md-icon-button md-mini md-warn",ng-click="deleteItem(item.id)")
+            md-tooltip
+              | Supprimer
+            md-icon(class="material-icons") delete
+          md-divider(md-inset,ng-if="!$last")
+  div(ui-view="inventoryInfos",flex,layout-fill)
+  script(src='js/inventory.js')

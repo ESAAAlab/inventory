@@ -1,6 +1,6 @@
 // USERS
 // EVENT MANAGEMENT
-inventory.controller('rootUsersController', function($scope) {
+inventory.controller('rootLendingController', function($scope) {
   $scope.$on('rootLoadUserDetails', function(event, args) {
     $scope.$broadcast('loadUserDetails', args);
   });
@@ -12,7 +12,7 @@ inventory.controller('rootUsersController', function($scope) {
   $scope.$on('rootReloadUserSearchResults', function(event, args) {
     $scope.$broadcast('reloadUserSearchResults', args);
   });
-}); 
+});
 
 inventory.controller('usersController', function ($scope,$http,toastService,utilsService,asyncLoadingService) {
   $scope.formData = [];
@@ -81,7 +81,7 @@ inventory.controller('usersController', function ($scope,$http,toastService,util
   });
 });
 
-inventory.controller('singleUserController', function ($scope,$http,toastService,asyncLoadingService,utilsService) {
+inventory.controller('lendingController', function ($scope,$http,toastService,asyncLoadingService,utilsService) {
   $scope.user = {'id':null};
   $scope.studentYears = [];
   $scope.userTypes = [];
@@ -105,7 +105,7 @@ inventory.controller('singleUserController', function ($scope,$http,toastService
     });
   };
 
-  $scope.saveUser = function() {   
+  $scope.saveUser = function() {
     if ($scope.user.id === null) {
       // ADD A NEW USER
       $http.post('/api/v1/user',$scope.user)
@@ -149,8 +149,6 @@ inventory.controller('singleUserController', function ($scope,$http,toastService
     });
   };
 
-  $scope.loadUser(100);
-
   asyncLoadingService.getStudentYears().then(function(data){
     $scope.studentYears = data;
   });
@@ -158,6 +156,4 @@ inventory.controller('singleUserController', function ($scope,$http,toastService
   asyncLoadingService.getUserTypes().then(function(data){
     $scope.userTypes = data;
   });
-
-  
 });

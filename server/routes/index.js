@@ -4,17 +4,12 @@ var router = express.Router();
 var md5 = require('md5');
 
 // FRONTEND ROUTES
-router.get('/', function(req, res, next) {
+router.get("/", function (req, res) {
   res.render('index');
 });
 
-router.get('/users', function(req, res) {
-  res.render('partials/users');
-});
+// LENDING ROUTES
 
-router.get('/inventory', function(req, res) {
-  res.render('partials/inventory');
-});
 
 // API ROUTES
 // INVENTORY ITEMS
@@ -59,7 +54,7 @@ router.get('/api/v1/user/:id', function(req, res) {
     res.json(sqlResult);
   });
 });
-// CREATE NEW ITEM
+// CREATE NEW USER
 router.post('/api/v1/user', function(req, res) {
   models.user.create({
     barcode: md5(req.body.firstName+req.body.lastName),
@@ -86,7 +81,7 @@ router.post('/api/v1/user', function(req, res) {
     res.send(sqlResult);
   });
 });
-// UPDATE EXISTING ITEM
+// UPDATE EXISTING USER
 router.put('/api/v1/user/:id', function(req, res) {
   models.user.find({
     where: {
@@ -101,8 +96,8 @@ router.put('/api/v1/user/:id', function(req, res) {
         lastName: req.body.lastName,
         isRegistered: req.body.isRegistered,
         email: req.body.email,
-        cellPhone: req.body.cell,
-        homePhone: req.body.phone,
+        cellPhone: req.body.cellPhone,
+        homePhone: req.body.homePhone,
         addressStreet: req.body.street,
         addressCity: req.body.city,
         addressState: req.body.state,
@@ -158,6 +153,10 @@ router.get('/api/v1/inventory', function(req, res) {
 router.get('/api/v1/inventory/search/:str', function(req, res) {
   models.item.findAll({
     where: {name:{$ilike:req.params.str+'%'}},
+    include:[
+      {model:models.transaction, as:'stockCounts'},
+      {model:models.transaction, as:'lendings'}
+    ],
     order: [['updatedAt', 'DESC']]
   }).then(function(sqlResult) {
     res.json(sqlResult);
@@ -166,7 +165,11 @@ router.get('/api/v1/inventory/search/:str', function(req, res) {
 // GET SINGLE ITEM
 router.get('/api/v1/inventory/:id', function(req, res) {
   models.item.findOne({
-    where: {id:req.params.id}
+    where: {id:req.params.id},
+    include:[
+      {model:models.transaction, as:'stockCounts'},
+      {model:models.transaction, as:'lendings'}
+    ],
   }).then(function(sqlResult) {
     res.json(sqlResult);
   });

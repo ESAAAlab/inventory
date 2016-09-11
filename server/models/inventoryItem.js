@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     acquisitionPrice: DataTypes.DOUBLE,
     acquisitionDate: DataTypes.DATE,
     description: DataTypes.TEXT,
-    isConsummable: DataTypes.BOOLEAN,
+    isConsumable: DataTypes.BOOLEAN,
     stockMax: DataTypes.DOUBLE,
     stockAvailable: DataTypes.DOUBLE,
     stockStep: DataTypes.DOUBLE,
@@ -29,8 +29,9 @@ module.exports = function(sequelize, DataTypes) {
         InventoryItem.belongsToMany(models.note,{as: 'notes', through:'itemNotes'});
         InventoryItem.belongsToMany(models.note,{as: 'maintenance', through:'itemMaintenances'});
         InventoryItem.belongsToMany(models.note,{as: 'commentary', through:'itemCommentaries'});
-        
-        InventoryItem.belongsToMany(models.transaction,{as: 'transaction', through:'itemTransactions'});
+
+        InventoryItem.belongsToMany(models.transaction,{as: 'lendings', through:'itemLending'});
+        InventoryItem.belongsToMany(models.transaction,{as: 'stockCounts', through:'itemStock'});
       }
     }
   });
