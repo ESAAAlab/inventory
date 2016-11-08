@@ -36,7 +36,7 @@ var inventory = angular.module('inventory', ['ngMaterial','ui.router'])
     templateUrl: '/static/partials/inventory.html'
   })
   .state('inventory.id', {
-    url:'/:id',    
+    url:'/:id',
     views:{
       "inventoryInfos":{
         templateUrl: '/static/partials/inventory.id.html'

@@ -1,5 +1,5 @@
 doctype
-html(ng-app="inventory")
+html(ng-app='inventory')
   head
     meta(charset='utf8')
     base(href='/')
@@ -15,8 +15,12 @@ html(ng-app="inventory")
     script(src='/bower_components/angular-messages/angular-messages.min.js')
     script(src='/bower_components/angular-material/angular-material.min.js')
     script(src='/bower_components/angular-ui-router/release/angular-ui-router.js')
-    script(src='js/app.js')
-    script(src='js/utils.js')
+    script(src='/js/app.js')
+    script(src='/js/utils.js')
+    script(src='/js/users.js')
+    script(src='/js/utils.js')
+    script(src='/js/lending.js')
+    script(src='/js/inventory.js')
   body(ng-cloak, layout="row",height="100%")
     div(layout="column",flex="5", layout-align="center center")
       md-content(layout="column", ng-style="{'padding-top':'27px'}", flex="90", layout-fill, md-theme="menu-dark", layout-align="start center")
@@ -25,17 +29,17 @@ html(ng-app="inventory")
             | index
           md-icon(class="material-icons") home
         br
-        md-button(class="md-fab md-mini",href="#/lending")
+        md-button(class="md-fab md-mini",href="lending")
           md-tooltip
             | prêt et retours
           md-icon(class="material-icons") swap_horiz
         br
-        md-button(class="md-fab md-mini",href="#/users")
+        md-button(class="md-fab md-mini",href="users")
           md-tooltip
             | utilisateurs
           md-icon(class="material-icons") face
         br
-        md-button(class="md-fab md-mini",href="#/inventory")
+        md-button(class="md-fab md-mini",href="inventory")
           md-tooltip
             | inventaire
           md-icon(class="material-icons") build

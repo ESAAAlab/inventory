@@ -1,1 +1,49 @@
-<!DOCTYPE html><html ng-app="inventory"><head><meta charset="utf8"><base href="/"><title>Inventory</title><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"><script src="/bower_components/jquery/dist/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script><script src="/bower_components/angular/angular.min.js"></script><script src="/bower_components/angular-animate/angular-animate.min.js"></script><script src="/bower_components/angular-aria/angular-aria.min.js"></script><script src="/bower_components/angular-messages/angular-messages.min.js"></script><script src="/bower_components/angular-material/angular-material.min.js"></script><script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script><script src="js/app.js"></script><script src="js/utils.js"></script><script src="js/lending.js"></script></head><body ng-cloak layout="row" height="100%"><div layout="column" flex="5" layout-align="center center"><md-content layout="column" ng-style="{'padding-top':'27px'}" flex="90" layout-fill md-theme="menu-dark" layout-align="start center"><md-button class="md-fab md-mini" ng-href="/"><md-tooltip>index</md-tooltip><md-icon class="material-icons">home</md-icon></md-button><br><md-button class="md-fab md-mini" href="#/lending"><md-tooltip>prêt et retours</md-tooltip><md-icon class="material-icons">swap_horiz</md-icon></md-button><br><md-button class="md-fab md-mini" href="#/users"><md-tooltip>utilisateurs</md-tooltip><md-icon class="material-icons">face</md-icon></md-button><br><md-button class="md-fab md-mini" href="#/inventory"><md-tooltip>inventaire</md-tooltip><md-icon class="material-icons">build</md-icon></md-button></md-content></div><div ui-view layout-fill></div><ERROR></ERROR></body></html>
+<!DOCTYPE html>
+<html ng-app="inventory">
+  <head>
+    <meta charset="utf8">
+    <base href="/">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.min.js"></script>
+    <script src="/bower_components/angular-material/angular-material.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/users.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/lending.js"></script>
+    <script src="/js/inventory.js"></script>
+  </head>
+  <body ng-cloak layout="row" height="100%">
+    <div layout="column" flex="5" layout-align="center center">
+      <md-content layout="column" ng-style="{'padding-top':'27px'}" flex="90" layout-fill md-theme="menu-dark" layout-align="start center">
+        <md-button class="md-fab md-mini" ng-href="/">
+          <md-tooltip>index</md-tooltip>
+          <md-icon class="material-icons">home</md-icon>
+        </md-button><br>
+        <md-button class="md-fab md-mini" href="lending">
+          <md-tooltip>prêt et retours</md-tooltip>
+          <md-icon class="material-icons">swap_horiz</md-icon>
+        </md-button><br>
+        <md-button class="md-fab md-mini" href="users">
+          <md-tooltip>utilisateurs</md-tooltip>
+          <md-icon class="material-icons">face</md-icon>
+        </md-button><br>
+        <md-button class="md-fab md-mini" href="inventory">
+          <md-tooltip>inventaire</md-tooltip>
+          <md-icon class="material-icons">build</md-icon>
+        </md-button>
+      </md-content>
+    </div>
+    <div ui-view layout-fill></div>
+    <ERROR></ERROR>
+  </body>
+</html>
