@@ -3,7 +3,7 @@
   <div layout="column" layout-fill="layout-fill" flex="33" ng-controller="itemsController" height="100%">
     <md-content flex="none" md-theme="search-dark" ng-style="{'overflow':'hidden'}">
       <form ng-submit="querySearch(searchText)" layout="row" layout-fill="layout-fill" layout-padding="layout-padding" layout-align="center center">
-        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px"/>
+        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
         <md-input-container flex="90" ng-style="{'margin-top':'20px','margin-bottom':'0px'}">
           <label>Nom ou code barre</label>
           <input ng-model="searchText" ng-change="querySearch(searchText)" autofocus="autofocus"/>

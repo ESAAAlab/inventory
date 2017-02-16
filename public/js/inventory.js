@@ -12,7 +12,7 @@ inventory.controller('rootItemController', function($scope) {
   $scope.$on('rootReloadItemSearchResults', function(event, args) {
     $scope.$broadcast('reloadItemSearchResults', args);
   });
-}); 
+});
 
 inventory.controller('itemsController', function ($scope,$http,toastService,utilsService,asyncLoadingService) {
   $scope.formData = [];
@@ -96,8 +96,8 @@ inventory.controller('singleItemController', function ($scope,$http,toastService
       $scope.item.stockStep = 1;
       return true;
     } else {
-      return false;  
-    }     
+      return false;
+    }
   };
 
   $scope.parseSQLResult = function(data) {
@@ -121,7 +121,7 @@ inventory.controller('singleItemController', function ($scope,$http,toastService
     });
   };
 
-  $scope.saveItem = function() {   
+  $scope.saveItem = function() {
     if ($scope.item.id === null) {
       // ADD A NEW ITEM
       $http.post('/api/v1/inventory',$scope.item)
@@ -167,7 +167,7 @@ inventory.controller('singleItemController', function ($scope,$http,toastService
       $scope.clearItem();
       $scope.$emit('rootReloadItemSearchResults',{});
     });
-  };  
+  };
 
   asyncLoadingService.getCategories().then(function(data){
     $scope.itemCategories = data;

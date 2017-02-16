@@ -28,6 +28,7 @@ router.get('/api/v1/users', function(req, res) {
 });
 // SEARCH USER BY NAME
 router.get('/api/v1/user/search/:str', function(req, res) {
+  console.log("SEARCHING USER");
   models.user.findAll({
     where: {lastName:{$ilike:req.params.str+'%'}},
     order: [['updatedAt', 'DESC']],
@@ -151,6 +152,7 @@ router.get('/api/v1/inventory', function(req, res) {
 });
 // SEARCH ITEM BY NAME
 router.get('/api/v1/inventory/search/:str', function(req, res) {
+  console.log("SEARCHING API");
   models.item.findAll({
     where: {name:{$ilike:req.params.str+'%'}},
     include:[

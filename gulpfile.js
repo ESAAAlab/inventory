@@ -50,7 +50,7 @@ gulp.task('templates', function() {
     .pipe(pug({
       pretty:true
     }))
-    .pipe(gulp.dest('./public/static/'))
+    .pipe(gulp.dest('./public/static/'));
 });
 
 gulp.task('browser-sync', ['nodemon'], function(done) {
