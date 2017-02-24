@@ -15,7 +15,7 @@ div(layout="column", layout-fill, ng-controller="singleItemController", height="
           | Supprimer
         md-icon(class="material-icons") delete
     md-content(flex="10", layout="row", layout-padding, md-theme="edit", id="formContent")
-      div(flex="20")
+      //- div(flex="20")
         img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.name}}")
       div(flex, layout="column")
         md-input-container
@@ -62,7 +62,7 @@ div(layout="column", layout-fill, ng-controller="singleItemController", height="
             label Stock Maximum
               //-span(ng-if="item.stockUnit != units[0].unit")
                 | (en {{item.stockUnit}})
-            input(ng-model="item.stockCounts[0].quantity", type="number", ng-step="item.stockStep")
+            input(ng-model="item.stockMax", type="number", ng-step="item.stockStep")
           md-input-container(flex)
             label Actuellement en stock
               //-span(ng-if="item.stockUnit != units[0].unit")

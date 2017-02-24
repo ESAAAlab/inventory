@@ -22,18 +22,6 @@
             <h3>{{user.lastName | uppercase}} {{user.firstName | uppercase}}</h3>
             <h4>{{user.studentYear.description}}</h4>
           </div>
-          <md-button class="md-icon-button" ng-click="loadUser(user.id)">
-            <md-tooltip>Editer</md-tooltip>
-            <md-icon class="material-icons">mode_edit</md-icon>
-          </md-button>
-          <md-button class="md-icon-button" ng-click="duplicateUser(user)">
-            <md-tooltip>Dupliquer</md-tooltip>
-            <md-icon class="material-icons">content_copy</md-icon>
-          </md-button>
-          <md-button class="md-icon-button md-mini md-warn" ng-click="deleteUser(user.id)">
-            <md-tooltip>Supprimer</md-tooltip>
-            <md-icon class="material-icons">delete</md-icon>
-          </md-button>
           <md-divider md-inset="md-inset" ng-if="!$last"></md-divider>
         </md-list-item>
       </md-list>

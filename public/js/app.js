@@ -7,6 +7,7 @@ var inventory = angular.module('inventory', ['ngMaterial','ui.router'])
   $mdThemingProvider.theme('menu-dark', 'default').primaryPalette('blue-grey').accentPalette('blue-grey').dark();
   $mdThemingProvider.theme('edit', 'default').primaryPalette('blue-grey').accentPalette('deep-orange');
   $mdThemingProvider.theme('edit-dark', 'default').primaryPalette('blue-grey').accentPalette('deep-orange').dark();
+  $mdThemingProvider.theme('edit-dark-accent', 'default').primaryPalette('blue-grey').accentPalette('green').dark();
   $mdThemingProvider.theme('success-toast');
   $mdThemingProvider.theme('error-toast');
 
@@ -18,6 +19,14 @@ var inventory = angular.module('inventory', ['ngMaterial','ui.router'])
   .state('lending', {
     url:'/lending',
     templateUrl: '/static/partials/lending.html'
+  })
+  .state('lending.id', {
+    url:'/:id',
+    views:{
+      "lendingInfos": {
+        templateUrl: '/static/partials/lending.id.html'
+      }
+    }
   })
   .state( 'users', {
     url:'/users',
@@ -31,11 +40,11 @@ var inventory = angular.module('inventory', ['ngMaterial','ui.router'])
       }
     }
   })
-  .state('inventory', {
+  .state( 'inventory', {
     url:'/inventory',
     templateUrl: '/static/partials/inventory.html'
   })
-  .state('inventory.id', {
+  .state( 'inventory.id', {
     url:'/:id',
     views:{
       "inventoryInfos":{

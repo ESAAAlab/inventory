@@ -17,7 +17,7 @@
     <md-content layout="column" flex="90" md-theme="search">
       <md-progress-linear md-mode="indeterminate" ng-disabled="isFinishedLoadingSearchQuery"></md-progress-linear>
       <md-list>
-        <md-list-item class="md-3-line" ng-repeat="item in items" ui-sref="inventory.id({id:item.id})" on-repeat-directive="on-repeat-directive"><img class="md-avatar" data-ng-src="{{item.pictures[0].content}}" alt="{{item.last_name}} {{item.first_name}}"/>
+        <md-list-item class="md-3-line" ng-repeat="item in items" ui-sref="inventory.id({id:item.id})" on-repeat-directive="on-repeat-directive">
           <div class="md-list-item-text">
             <h3>{{item.name | uppercase}}</h3>
             <h4>{{item.brand}} {{item.model}}</h4>

@@ -14,7 +14,7 @@ div(layout="row",flex=100,ng-controller="rootItemController")
       md-progress-linear(md-mode="indeterminate",ng-disabled="isFinishedLoadingSearchQuery")
       md-list
         md-list-item(class="md-3-line", ng-repeat="item in items", ui-sref="inventory.id({id:item.id})", on-repeat-directive)
-          img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.last_name}} {{item.first_name}}")
+          //- img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.last_name}} {{item.first_name}}")
           div(class="md-list-item-text")
             h3 {{item.name | uppercase}}
             h4 {{item.brand}} {{item.model}}

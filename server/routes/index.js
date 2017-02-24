@@ -2,24 +2,97 @@ var models = require('../models/index');
 var express = require('express');
 var router = express.Router();
 var md5 = require('md5');
+var jsonQuery = require('json-query');
 
 // FRONTEND ROUTES
 router.get("/", function (req, res) {
   res.render('index');
 });
 
-// LENDING ROUTES
-
-
 // API ROUTES
-// INVENTORY ITEMS
+// LENDING
+// CREATE NEW USER TRANSACTION
+router.post('/api/v1/transaction', function(req, res) {
+  var defaultEndDate = new Date();
+  defaultEndDate.setDate(defaultEndDate.getDate()+3);
+  models.item.findOne({
+    where: {id:req.body.itemId},
+  }).then(function(sqlItem) {
+    models.user.findOne({
+      where: {id:req.body.userId},
+    }).then(function(sqlUser) {
+      models.transaction.create({
+        type:'lending',
+        startDate: new Date(),
+        endDate: defaultEndDate,
+        ended: false,
+        quantity: 1
+      }).then(function(sqlTransaction) {
+        sqlItem.addLending(sqlTransaction);
+        sqlUser.addLending(sqlTransaction);
+        sqlItem.updateAttributes({
+          stockAvailable:sqlItem.stockAvailable-1
+        }).then(function(sqlResult) {
+          res.json(sqlTransaction);
+        });
+      });
+    });
+  });
+});
+
+router.put('/api/v1/transaction/:id', function(req, res) {
+  models.transaction.findOne({
+    where: {id: req.params.id},
+    include:[
+      {model:models.item, as:'transactions', required: false}
+    ]
+  }).then(function(transaction) {
+    var item = transaction.transactions[0];
+    item.updateAttributes({
+      stockAvailable:item.stockAvailable+1
+    }).then(function(sqlResult) {
+      transaction.updateAttributes({
+        ended:true
+      }).then(function(sqlResult) {
+        res.send(sqlResult);
+      });
+    });
+  });
+});
+
+router.get('/api/v1/transaction/user/:id', function(req, res) {
+  models.transaction.findAll({
+    where:{ended:false},
+    include:[
+      {model:models.user, as:'lendings', where: {id:req.params.id}, required: true},
+      {model:models.item, as:'transactions'}
+    ],
+    order: [['createdAt', 'DESC']]
+  }).then(function(sqlResult) {
+    res.json(sqlResult);
+  });
+});
+
+router.get('/api/v1/transaction/item/:id', function(req, res) {
+  models.transaction.findAll({
+    include:[
+      {model:models.item, as:'transactions', where: {id:req.params.id}, required: true},
+      {model:models.user, as:'lendings'}
+    ]
+  }).then(function(sqlResult) {
+    res.json(sqlResult);
+  });
+});
+
+// USERS
 // GET COMPLETE USER LIST
 router.get('/api/v1/users', function(req, res) {
   models.user.findAll({
     include: [
       {model:models.userType, where: {description:'Étudiant'}},
       {model:models.studentYear},
-      {model:models.document, as:'pictures', where: {type:'userProfilePic'}}
+      {model:models.document, as:'pictures', where: {type:'userProfilePic'}},
+      {model:models.transaction, as:'lendings', where: {type:'lending'}, required: false}
     ],
     order: [['lastName', 'ASC']]
   }).then(function(sqlResult) {
@@ -28,14 +101,14 @@ router.get('/api/v1/users', function(req, res) {
 });
 // SEARCH USER BY NAME
 router.get('/api/v1/user/search/:str', function(req, res) {
-  console.log("SEARCHING USER");
   models.user.findAll({
     where: {lastName:{$ilike:req.params.str+'%'}},
     order: [['updatedAt', 'DESC']],
     include: [
       {model:models.userType, where: {description:'Étudiant'}},
       {model:models.studentYear},
-      {model:models.document, as:'pictures', where: {type:'userProfilePic'}, required: false}
+      {model:models.document, as:'pictures', where: {type:'userProfilePic'}, required: false},
+      {model:models.transaction, as:'lendings', where: {type:'lending'}, required: false},
     ]
   }).then(function(sqlResult) {
     res.json(sqlResult);
@@ -48,7 +121,8 @@ router.get('/api/v1/user/:id', function(req, res) {
     include: [
       {model:models.userType, where: {description:'Étudiant'}},
       {model:models.studentYear},
-      {model:models.document, as:'pictures', where: {type:'userProfilePic'}, required: false}
+      {model:models.document, as:'pictures', where: {type:'userProfilePic'}, required: false},
+      {model:models.transaction, as:'lendings', where: {type:'lending', ended:false}, required: false},
     ],
     order: [['lastName', 'ASC']]
   }).then(function(sqlResult) {
@@ -178,7 +252,6 @@ router.get('/api/v1/inventory/:id', function(req, res) {
 });
 // CREATE NEW ITEM
 router.post('/api/v1/inventory', function(req, res) {
-  console.log(req.body);
   models.item.create({
     name: req.body.name,
     model: req.body.model,

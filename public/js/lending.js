@@ -2,6 +2,7 @@
 // EVENT MANAGEMENT
 inventory.controller('rootLendingController', function($scope) {
   $scope.$on('rootLoadUserDetails', function(event, args) {
+    console.log(args);
     $scope.$broadcast('loadUserDetails', args);
   });
 
@@ -14,80 +15,18 @@ inventory.controller('rootLendingController', function($scope) {
   });
 });
 
-inventory.controller('usersController', function ($scope,$http,toastService,utilsService,asyncLoadingService) {
-  $scope.formData = [];
-  $scope.users = [];
-  $scope.user = {};
-  $scope.filteredUser = [];
-  $scope.isFinishedLoadingSearchQuery = true;
-
-  $scope.querySearch = function(query,force) {
-    if (query !== undefined && query !== '' && query !== null) {
-      $scope.isFinishedLoadingSearchQuery = false;
-      $http.get('/api/v1/user/search/'+utilsService.cleanString(query))
-      .success(function(data) {
-        $scope.users = data;
-        $scope.isFinishedLoadingSearchQuery = true;
-      })
-      .error(function(error) {
-          console.log('Error: ' + error);
-      });
-    } else {
-      if (force) {
-        $scope.isFinishedLoadingSearchQuery = false;
-        $http.get('/api/v1/users/')
-        .success(function(data) {
-          $scope.users = data;
-          console.log($scope.users[0]);
-          $scope.isFinishedLoadingSearchQuery = true;
-        })
-        .error(function(error) {
-            console.log('Error: ' + error);
-        });
-      }
-    }
-  };
-
-  $scope.deleteUser = function(id) {
-    asyncLoadingService.clearUser(id).then(function(data){
-      toastService.showToast(true,'Utilisateur supprimé avec succés');
-      $scope.querySearch($scope.searchText);
-    });
-  };
-
-  $scope.duplicateUser = function(user) {
-    var newUser = (JSON.parse(JSON.stringify(user)));
-    newUser.id = null;
-    newUser.lastName = newUser.lastName+' - copie';
-    $http.post('/api/v1/user',newUser)
-    .success(function(data) {
-      console.log(data);
-      toastService.showToast(true,'Copie réussie');
-      $scope.$emit('rootLoadUserDetails', {'id':data.id});
-      $scope.querySearch($scope.searchText);
-    })
-    .error(function(error) {
-      toastService.showToast(false,'Erreur lors de la copie');
-      console.log('Error: ' + error);
-    });
-  };
-
-  $scope.loadUser = function(id) {
-    $scope.$emit('rootLoadUserDetails', {'id':id});
-  };
-
-  $scope.$on('reloadUserSearchResults', function(event, args) {
-    $scope.querySearch($scope.searchText);
-  });
-});
-
-inventory.controller('lendingController', function ($scope,$http,toastService,asyncLoadingService,utilsService) {
+inventory.controller('singleLendingController', function ($scope,$http,$stateParams,toastService,asyncLoadingService,utilsService) {
   $scope.user = {'id':null};
   $scope.studentYears = [];
   $scope.userTypes = [];
+  $scope.userInventory = [];
 
-  $scope.parseSQLResult = function(data) {
+  $scope.parseSQLUser = function(data) {
     $scope.user = data;
+  };
+
+  $scope.parseSQLInventory = function(data) {
+    $scope.userInventory = data;
   };
 
   $scope.clearUser = function() {
@@ -95,42 +34,25 @@ inventory.controller('lendingController', function ($scope,$http,toastService,as
   };
 
   $scope.loadUser = function(id) {
-    console.log("loading");
+    console.log("laoding user");
     $http.get('/api/v1/user/'+id)
     .success(function(data) {
-      $scope.parseSQLResult(data);
+      $scope.parseSQLUser(data);
+      $scope.loadUserInventory(id);
     })
     .error(function(error) {
       console.log('Error: ' + error);
     });
   };
 
-  $scope.saveUser = function() {
-    if ($scope.user.id === null) {
-      // ADD A NEW USER
-      $http.post('/api/v1/user',$scope.user)
-      .success(function(data) {
-        toastService.showToast(true,'Ajout réussi');
-        $scope.parseSQLResult(data);
-        $scope.$emit('rootReloadUserSearchResults',{});
-      })
-      .error(function(error) {
-        toastService.showToast(false,'Erreur lors de l\'ajout');
-        console.log('Error: ' + error);
-      });
-    } else {
-      // UPDATE EXISTING USER
-      $http.put('/api/v1/user/'+$scope.user.id,$scope.user)
-      .success(function(data) {
-        toastService.showToast(true,'Mise à jour réussie');
-        $scope.parseSQLResult(data);
-        $scope.$emit('rootReloadUserSearchResults',{});
-      })
-      .error(function(error) {
-        toastService.showToast(false,'Erreur lors de la mise à jour');
-        console.log('Error: ' + error);
-      });
-    }
+  $scope.loadUserInventory = function(userId) {
+    $http.get('/api/v1/transaction/user/'+userId)
+    .success(function(data) {
+      $scope.parseSQLInventory(data);
+    })
+    .error(function(error) {
+      console.log('Error: ' + error);
+    });
   };
 
   $scope.$on('loadUserDetails', function(event, args) {
@@ -149,11 +71,82 @@ inventory.controller('lendingController', function ($scope,$http,toastService,as
     });
   };
 
+  $scope.loadUser($stateParams.id);
+
   asyncLoadingService.getStudentYears().then(function(data){
     $scope.studentYears = data;
   });
 
   asyncLoadingService.getUserTypes().then(function(data){
     $scope.userTypes = data;
+  });
+
+  // Item Search
+  $scope.formData = [];
+  $scope.items = [];
+  $scope.item = {};
+  $scope.filteredItem = [];
+  $scope.isFinishedLoadingSearchQuery = true;
+
+  // Tool Search
+  $scope.querySearch = function(query,force) {
+    if (query !== undefined && query !== '' && query !== null) {
+      $scope.isFinishedLoadingSearchQuery = false;
+      $http.get('/api/v1/inventory/search/'+utilsService.cleanString(query))
+      .success(function(data) {
+        $scope.items = data;
+        $scope.isFinishedLoadingSearchQuery = true;
+      })
+      .error(function(error) {
+          console.log('Error: ' + error);
+      });
+    } else {
+      if (force) {
+        $scope.isFinishedLoadingSearchQuery = false;
+        $http.get('/api/v1/inventory/')
+        .success(function(data) {
+          $scope.items = data;
+          $scope.isFinishedLoadingSearchQuery = true;
+        })
+        .error(function(error) {
+            console.log('Error: ' + error);
+        });
+      }
+    }
+  };
+
+  $scope.addTransaction = function(userId, itemId) {
+    var params = {};
+    params.userId = $scope.user.id;
+    params.itemId = itemId;
+    $http.post('/api/v1/transaction',params)
+    .success(function(data) {
+      toastService.showToast(true,'Nouvelle Transaction');
+      $scope.loadUserInventory(userId);
+    })
+    .error(function(error) {
+      toastService.showToast(false,'Erreur lors de la transaction');
+      console.log('Error: ' + error);
+    });
+  };
+
+  $scope.endTransaction = function(id) {
+    $http.put('/api/v1/transaction/'+id)
+    .success(function(data) {
+      toastService.showToast(true,'Outil rendu');
+      $scope.loadUserInventory($scope.user.id);
+    });
+  };
+
+  $scope.loadItem = function(id) {
+    $scope.$emit('rootLoadItemDetails', {'id':id});
+  };
+
+  $scope.checkStockAvailable = function(item) {
+    return utilsService.checkStockAvailable(item);
+  };
+
+  $scope.$on('reloadItemSearchResults', function(event, args) {
+    $scope.querySearch($scope.searchText);
   });
 });

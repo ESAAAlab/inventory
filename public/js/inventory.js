@@ -83,7 +83,7 @@ inventory.controller('itemsController', function ($scope,$http,toastService,util
   });
 });
 
-inventory.controller('singleItemController', function ($scope,$http,toastService,asyncLoadingService,utilsService) {
+inventory.controller('singleItemController', function ($scope,$http,$stateParams,toastService,asyncLoadingService,utilsService) {
   $scope.item = {'id':null};
   $scope.itemCategories = [];
   $scope.itemLocations = [];
@@ -150,8 +150,10 @@ inventory.controller('singleItemController', function ($scope,$http,toastService
   };
 
   $scope.$on('loadItemDetails', function(event, args) {
-    $scope.loadItem(args.id);
+      $scope.loadItem(args.id);
   });
+
+  $scope.loadItem($stateParams.id);
 
   $scope.$on('clearItemDetails', function(event, args) {
     $scope.clearItem();

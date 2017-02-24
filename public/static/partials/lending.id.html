@@ -1,0 +1,56 @@
+
+<div layout="column" layout-fill="layout-fill" ng-controller="singleLendingController" height="100%">
+  <form ng-submit="saveUser()" layout="column" flex="flex">
+    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+    <md-content class="md-3-line" flex="none" md-theme="edit-dark" ng-style="{'overflow':'hidden', 'padding-top':'1px','padding-bottom':'1px'}" layout="row" layout-fill="layout-fill" layout-padding="layout-padding" layout-align="start center">
+      <md-list>
+        <md-list-item class="md-3-line"><img class="md-avatar" data-ng-src="{{user.pictures[0].content}}" alt="{{user.lastName}} {{user.firstName}}"/>
+          <div class="md-list-item-text">
+            <h3>{{user.lastName | uppercase}} {{user.firstName | uppercase}}</h3>
+            <h4>{{user.studentYear.description}}</h4>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+    <md-content layout="column" layout-padding="layout-padding" id="formContent">
+      <md-content layout="row" flex="100" ng-style="{'padding-bottom':'0px'}">
+        <md-input-container flex="100">
+          <label>Nom ou code barre de l'outil</label>
+          <input ng-model="searchText" ng-change="querySearch(searchText)" autofocus="autofocus"/>
+        </md-input-container>
+        <md-button class="md-fab md-mini md-primary" ng-click="querySearch(searchText,true)">
+          <md-tooltip>Rechercher</md-tooltip>
+          <md-icon class="material-icons">search</md-icon>
+        </md-button>
+      </md-content>
+      <md-content layout="column" flex="90">
+        <md-progress-linear md-mode="indeterminate" ng-disabled="isFinishedLoadingSearchQuery"></md-progress-linear>
+        <md-list>
+          <md-list-item class="md-2-line" ng-repeat="item in items" ng-click="addTransaction(user.id, item.id)" on-repeat-directive="on-repeat-directive"><img class="md-avatar" data-ng-src="{{item.pictures[0].content}}" alt="{{item.last_name}} {{item.first_name}}"/>
+            <div class="md-list-item-text">
+              <h3>{{item.name | uppercase}}</h3>
+              <h4>{{item.brand}} {{item.model}}</h4>
+              <p ng-style="checkStockAvailable(item)">{{item.stockAvailable}} / {{item.stockMax}}</p>
+            </div>
+            <md-divider md-inset="md-inset" ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </md-content>
+    </md-content>
+    <md-content md-theme="edit-dark-accent" layout-padding="layout-padding">
+      <md-list>
+        <md-list-item class="md-2-line" ng-repeat="item in userInventory" on-repeat-directive="on-repeat-directive"><img class="md-avatar" data-ng-src="{{item.pictures[0].content}}" alt="{{item.last_name}} {{item.first_name}}"/>
+          <div class="md-list-item-text">
+            <h3>{{item.transactions[0].name | uppercase}}</h3>
+            <h4>{{item.transactions[0].brand}} {{item.model}}</h4>
+          </div>
+          <md-button class="md-icon-button md-mini md-accent" ng-click="endTransaction(item.id)">
+            <md-tooltip>Outil rendu</md-tooltip>
+            <md-icon class="material-icons">done</md-icon>
+          </md-button>
+          <md-divider md-inset="md-inset" ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </form>
+</div>

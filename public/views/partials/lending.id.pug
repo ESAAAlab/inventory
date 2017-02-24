@@ -1,0 +1,58 @@
+div(layout="column", layout-fill, ng-controller="singleLendingController", height="100%")
+  form(ng-submit="saveUser()", layout="column", flex)
+    input(type="submit",style="position: absolute; left: -9999px; width: 1px; height: 1px;")
+    md-content(flex="none",
+    class="md-3-line",
+    md-theme="edit-dark",
+    ng-style="{'overflow':'hidden', 'padding-top':'1px','padding-bottom':'1px'}",
+    layout="row",
+    layout-fill, layout-padding, layout-align="start center")
+      md-list
+        md-list-item(class="md-3-line")
+          img(data-ng-src="{{user.pictures[0].content}}", class="md-avatar", alt="{{user.lastName}} {{user.firstName}}")
+          div(class="md-list-item-text")
+            h3 {{user.lastName | uppercase}} {{user.firstName | uppercase}}
+            h4 {{user.studentYear.description}}
+      //- md-button(class="md-fab md-mini md-primary",ng-click="clearUser()")
+      //-   md-tooltip
+      //-     | Créer un nouvel utilisateur
+      //-   md-icon(class="material-icons") add
+      //- md-button(class="md-fab md-mini md-primary",ng-click="saveUser()")
+      //-   md-tooltip
+      //-     | Sauvegarder
+      //-   md-icon(class="material-icons") save
+      //- md-button(class="md-fab md-mini md-warn",ng-click="deleteUser(user.id)")
+      //-   md-tooltip
+      //-     | Supprimer
+      //-   md-icon(class="material-icons") delete
+    md-content(layout="column", layout-padding, id="formContent")
+      md-content(layout="row", flex="100", ng-style="{'padding-bottom':'0px'}")
+        md-input-container(flex="100")
+          label Nom ou code barre de l'outil
+          input(ng-model="searchText", ng-change="querySearch(searchText)", autofocus)
+        md-button(class="md-fab md-mini md-primary", ng-click="querySearch(searchText,true)")
+          md-tooltip
+              | Rechercher
+          md-icon(class="material-icons") search
+      md-content(layout="column",flex="90")
+        md-progress-linear(md-mode="indeterminate",ng-disabled="isFinishedLoadingSearchQuery")
+        md-list
+          md-list-item(class="md-2-line", ng-repeat="item in items", ng-click="addTransaction(user.id, item.id)", on-repeat-directive)
+            img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.last_name}} {{item.first_name}}")
+            div(class="md-list-item-text")
+              h3 {{item.name | uppercase}}
+              h4 {{item.brand}} {{item.model}}
+              p(ng-style="checkStockAvailable(item)") {{item.stockAvailable}} / {{item.stockMax}}
+            md-divider(md-inset,ng-if="!$last")
+    md-content(md-theme="edit-dark-accent", layout-padding)
+      md-list
+        md-list-item(class="md-2-line", ng-repeat="item in userInventory", on-repeat-directive)
+          img(data-ng-src="{{item.pictures[0].content}}", class="md-avatar", alt="{{item.last_name}} {{item.first_name}}")
+          div(class="md-list-item-text")
+            h3 {{item.transactions[0].name | uppercase}}
+            h4 {{item.transactions[0].brand}} {{item.model}}
+          md-button(class="md-icon-button md-mini md-accent", ng-click="endTransaction(item.id)")
+            md-tooltip
+              | Outil rendu
+            md-icon(class="material-icons") done
+          md-divider(md-inset,ng-if="!$last")

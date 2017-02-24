@@ -18,19 +18,18 @@ div(layout="row",flex=100,ng-controller="rootUsersController")
           div(class="md-list-item-text")
             h3 {{user.lastName | uppercase}} {{user.firstName | uppercase}}
             h4 {{user.studentYear.description}}
-          md-button(class="md-icon-button",ng-click="loadUser(user.id)")
+          //- md-button(class="md-icon-button",ng-click="loadUser(user.id)")
             md-tooltip
               | Editer
             md-icon(class="material-icons") mode_edit
-          md-button(class="md-icon-button",ng-click="duplicateUser(user)")
+          //- md-button(class="md-icon-button",ng-click="duplicateUser(user)")
             md-tooltip
               | Dupliquer
             md-icon(class="material-icons") content_copy
-          md-button(class="md-icon-button md-mini md-warn",ng-click="deleteUser(user.id)")
+          //- md-button(class="md-icon-button md-mini md-warn",ng-click="deleteUser(user.id)")
             md-tooltip
               | Supprimer
             md-icon(class="material-icons") delete
           md-divider(md-inset,ng-if="!$last")
   div(ui-view="userInfos",flex,layout-fill)
   script(src='js/users.js')
-    

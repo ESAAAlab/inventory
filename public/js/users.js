@@ -73,6 +73,7 @@ inventory.controller('usersController', function ($scope,$http,toastService,util
   };
 
   $scope.loadUser = function(id) {
+    console.log("loading user");
     $scope.$emit('rootLoadUserDetails', {'id':id});
   };
 

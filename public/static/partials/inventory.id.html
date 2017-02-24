@@ -17,7 +17,6 @@
       </md-button>
     </md-content>
     <md-content flex="10" layout="row" layout-padding="layout-padding" md-theme="edit" id="formContent">
-      <div flex="20"><img class="md-avatar" data-ng-src="{{item.pictures[0].content}}" alt="{{item.name}}"/></div>
       <div flex="flex" layout="column">
         <md-input-container>
           <label>Nom</label>
@@ -75,7 +74,7 @@
         <div layout="row">
           <md-input-container flex="flex">
             <label>Stock Maximum</label>
-            <input ng-model="item.stockCounts[0].quantity" type="number" ng-step="item.stockStep"/>
+            <input ng-model="item.stockMax" type="number" ng-step="item.stockStep"/>
           </md-input-container>
           <md-input-container flex="flex">
             <label>Actuellement en stock</label>
